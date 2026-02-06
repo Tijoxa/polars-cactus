@@ -7,7 +7,7 @@ import polars as pl
 from polars._typing import IntoExpr, PolarsDataType
 from polars.plugins import register_plugin_function
 
-from polars_cactus._core import __version__ as __version__
+from polars_cactus._core import __version__, evaluate, evaluate_7
 
 
 @pl.api.register_expr_namespace("chash")
@@ -48,20 +48,20 @@ class CactusEvaluator:
             is_elementwise=True,
         )
 
-    def evaluate_5cards(self) -> pl.Expr:
+    def evaluate_5cards_repr(self) -> pl.Expr:
         """Takes a list of u32 as input and returns a u32 that represents the hand."""
         return register_plugin_function(
             plugin_path=Path(__file__).parent,
-            function_name="evaluate_5cards",
+            function_name="evaluate_5cards_repr",
             args=self._expr,
             is_elementwise=True,
         )
 
-    def evaluate_5cards_str(self) -> pl.Expr:
+    def evaluate_5cards(self) -> pl.Expr:
         """Takes a list of str as input and returns a u32 that represents the hand."""
         return register_plugin_function(
             plugin_path=Path(__file__).parent,
-            function_name="evaluate_5cards_str",
+            function_name="evaluate_5cards",
             args=self._expr,
             is_elementwise=True,
         )
@@ -96,10 +96,10 @@ class CactusColumn(Protocol):
     def translate_repr_to_card(self) -> CactusColumn: ...
 
     @property
-    def evaluate_5cards(self) -> CactusColumn: ...
+    def evaluate_5cards_repr(self) -> CactusColumn: ...
 
     @property
-    def evaluate_5cards_str(self) -> CactusColumn: ...
+    def evaluate_5cards(self) -> CactusColumn: ...
 
 
 class CactusConcatStr(Protocol):
@@ -121,4 +121,4 @@ col = cast(CactusColumn, pl.col)
 concat_str = cast(CactusConcatStr, pl.concat_str)
 
 
-__all__ = ["col", "concat_str", "__version__"]
+__all__ = ["col", "concat_str", "__version__", "evaluate", "evaluate_7"]

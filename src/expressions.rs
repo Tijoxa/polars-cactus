@@ -34,7 +34,7 @@ fn translate_repr_to_card(inputs: &[Series]) -> PolarsResult<Series> {
 }
 
 #[polars_expr(output_type=UInt32)]
-fn evaluate_5cards(inputs: &[Series]) -> PolarsResult<Series> {
+fn evaluate_5cards_repr(inputs: &[Series]) -> PolarsResult<Series> {
     let ca = inputs[0].list()?;
 
     let out: UInt32Chunked = ca
@@ -53,8 +53,6 @@ fn evaluate_5cards(inputs: &[Series]) -> PolarsResult<Series> {
             let c4 = ca_inner.get(3)?;
             let c5 = ca_inner.get(4)?;
 
-            dbg!(c1, c2, c3, c4, c5);
-
             Some(eval_5cards(c1, c2, c3, c4, c5))
         })
         .collect();
@@ -63,7 +61,7 @@ fn evaluate_5cards(inputs: &[Series]) -> PolarsResult<Series> {
 }
 
 #[polars_expr(output_type=UInt32)]
-fn evaluate_5cards_str(inputs: &[Series]) -> PolarsResult<Series> {
+fn evaluate_5cards(inputs: &[Series]) -> PolarsResult<Series> {
     let ca = inputs[0].list()?;
 
     let out: UInt32Chunked = ca

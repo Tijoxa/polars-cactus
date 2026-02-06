@@ -1,4 +1,4 @@
-# cactus_evaluator
+# polars-cactus
 
 Implementation of the Cactus Kev Perfect Hash algorithm.
 
@@ -8,23 +8,24 @@ Implementation of the Cactus Kev Perfect Hash algorithm.
 
 Requires [Rust](https://www.rust-lang.org/fr)
 
-<pre>git clone https://github.com/Tijoxa/cactus_evaluator.git
-cd cactus_evaluator
+<pre>git clone https://github.com/Tijoxa/polars-cactus.git
+cd polars-cactus
 uv sync</pre>
 
-## From PyPI
+## From PyPI (not yet)
 
-<pre>uv add cactus_evaluator</pre>
+<pre>uv add polars-cactus</pre>
 
 # Usage
 
 - Usage in Python:
 
 ```Python
-import cactus_evaluator
-cactus_evaluator.evaluate('AC', '4C', '5C', 'TC', 'AH')
+import polars_cactus as plc
+
+plc.evaluate("AC", "4C", "5C", "TC", "AH")
 >>> 3484
-cactus_evaluator.evaluate_7('AC', '4C', '5C', 'TC', 'AH', '9H', '7S')
+plc.evaluate_7("AC", "4C", "5C", "TC", "AH", "9H", "7S")
 >>> 3463
 ```
 
@@ -50,4 +51,3 @@ df.select(plc.col("cards").cactus.evaluate_5cards_str())
 
 - [Cactus Kev Algorithm](https://suffe.cool/poker/evaluator.html)
 - [Hash Tables](http://suffe.cool/poker/7462.html)
-- [PyO3](https://github.com/PyO3/pyo3)

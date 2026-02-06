@@ -39,7 +39,7 @@ def test_translate_repr_to_card():
     assert_frame_equal(result, pl.DataFrame({"repr": expected}))
 
 
-def test_evaluate_5cards():
+def test_evaluate_5cards_repr():
     df = pl.DataFrame(
         {
             "cards": pl.Series(
@@ -51,12 +51,12 @@ def test_evaluate_5cards():
             )
         }
     )
-    result = df.select(plc.col("cards").cactus.evaluate_5cards())
+    result = df.select(plc.col("cards").cactus.evaluate_5cards_repr())
     expected = pl.Series([5, 3484], dtype=pl.UInt32)
     assert_frame_equal(result, pl.DataFrame({"cards": expected}))
 
 
-def test_evaluate_5cards_str():
+def test_evaluate_5cards():
     df = pl.DataFrame(
         {
             "cards": pl.Series(
@@ -67,6 +67,6 @@ def test_evaluate_5cards_str():
             )
         }
     )
-    result = df.select(plc.col("cards").cactus.evaluate_5cards_str())
+    result = df.select(plc.col("cards").cactus.evaluate_5cards())
     expected = pl.Series([5, 3484], dtype=pl.UInt32)
     assert_frame_equal(result, pl.DataFrame({"cards": expected}))
