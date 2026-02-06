@@ -1,5 +1,3 @@
-use std::borrow::Cow;
-
 use crate::tools::{
     card_and_repr::{card_to_repr, repr_to_card},
     eval_5cards,
@@ -7,17 +5,10 @@ use crate::tools::{
 use polars::{
     datatypes::{StringChunked, UInt32Chunked},
     error::PolarsResult,
-    prelude::{ChunkApply, IntoSeries, arity::unary_elementwise},
+    prelude::{IntoSeries, arity::unary_elementwise},
     series::Series,
 };
 use pyo3_polars::derive::polars_expr;
-
-#[polars_expr(output_type=String)]
-fn sha2_256(inputs: &[Series]) -> PolarsResult<Series> {
-    let ca = inputs[0].str()?;
-    let out: StringChunked = ca.apply_values(|v| Cow::Owned(v.to_string()));
-    Ok(out.into_series())
-}
 
 #[polars_expr(output_type=UInt32)]
 fn translate_card_to_repr(inputs: &[Series]) -> PolarsResult<Series> {
