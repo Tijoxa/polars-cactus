@@ -1,14 +1,35 @@
-[build-system]
-requires = ["maturin>=0.14,<0.15"]
-build-backend = "maturin"
-
 [project]
-name = "cactus_evaluator"
-requires-python = ">=3.7"
-classifiers = [
-    "Programming Language :: Rust",
-    "Programming Language :: Python :: Implementation :: CPython",
-    "Programming Language :: Python :: Implementation :: PyPy",
+name = "polars-cactus"
+dynamic = ["version"]
+description = "A Polars plugin to compute Poker hands"
+readme = "README.md"
+authors = [
+    { name = "Tijoxa", email = "tijoxa@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "polars>=1.38.0",
 ]
 
+[tool.maturin]
+module-name = "polars_cactus._core"
+python-packages = ["polars_cactus"]
+python-source = "src"
 
+[tool.uv]
+cache-keys = [{ file = "pyproject.toml" }, { file = "src/**/*.rs" }, { file = "Cargo.toml" }, { file = "Cargo.lock" }]
+
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[profile.dev]
+overflow-checks = false

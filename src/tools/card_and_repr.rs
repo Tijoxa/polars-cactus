@@ -1,7 +1,8 @@
-use crate::arrays;
+use super::arrays;
 use std::str::Chars;
 
-pub fn card_to_repr(card: &str) -> u32 {
+pub fn card_to_repr(card: Option<&str>) -> Option<u32> {
+    let card = card?;
     let mut iterator: Chars = card.chars();
     let symbol: Option<char> = iterator.next();
     let color: Option<char> = iterator.next();
@@ -77,7 +78,7 @@ pub fn card_to_repr(card: &str) -> u32 {
             pppppp = arrays::PRIMES[12];
             bbbbbbbbbbbbb = 0x1 << 28
         }
-        _ => panic!("Symbol unfound"),
+        _ => return None,
     };
 
     match color {
@@ -85,44 +86,45 @@ pub fn card_to_repr(card: &str) -> u32 {
         Some('D') => cdhs = 0x4 << 12,
         Some('H') => cdhs = 0x2 << 12,
         Some('S') => cdhs = 0x1 << 12,
-        _ => panic!("Color unfound"),
+        _ => return None,
     };
 
-    cdhs + rrrr + pppppp + bbbbbbbbbbbbb
+    Some(cdhs + rrrr + pppppp + bbbbbbbbbbbbb)
 }
 
-// pub fn repr_to_card(card_repr: u32) -> String {
-//     let color: char;
-//     let symbol: char;
+pub fn repr_to_card(card_repr: Option<u32>) -> Option<String> {
+    let card_repr = card_repr?;
+    let color: char;
+    let symbol: char;
 
-//     match (card_repr & 0xf000) >> 12 {
-//         0x8 => color = 'C',
-//         0x4 => color = 'D',
-//         0x2 => color = 'H',
-//         0x1 => color = 'S',
-//         _ => panic!("Invalid color in card_repr"),
-//     };
+    match (card_repr & 0xf000) >> 12 {
+        0x8 => color = 'C',
+        0x4 => color = 'D',
+        0x2 => color = 'H',
+        0x1 => color = 'S',
+        _ => return None,
+    };
 
-//     match (card_repr & 0xf00) >> 8 {
-//         0x0 => symbol = '2',
-//         0x1 => symbol = '3',
-//         0x2 => symbol = '4',
-//         0x3 => symbol = '5',
-//         0x4 => symbol = '6',
-//         0x5 => symbol = '7',
-//         0x6 => symbol = '8',
-//         0x7 => symbol = '9',
-//         0x8 => symbol = 'T',
-//         0x9 => symbol = 'J',
-//         0xa => symbol = 'Q',
-//         0xb => symbol = 'K',
-//         0xc => symbol = 'A',
-//         _ => panic!("Invalid symbol in card_repr"),
-//     };
+    match (card_repr & 0xf00) >> 8 {
+        0x0 => symbol = '2',
+        0x1 => symbol = '3',
+        0x2 => symbol = '4',
+        0x3 => symbol = '5',
+        0x4 => symbol = '6',
+        0x5 => symbol = '7',
+        0x6 => symbol = '8',
+        0x7 => symbol = '9',
+        0x8 => symbol = 'T',
+        0x9 => symbol = 'J',
+        0xa => symbol = 'Q',
+        0xb => symbol = 'K',
+        0xc => symbol = 'A',
+        _ => return None,
+    };
 
-//     let card = format!("{}{}", symbol, color);
-//     card
-// }
+    let card = format!("{}{}", symbol, color);
+    Some(card)
+}
 
 // Tests of card_and_repr
 #[cfg(test)]
@@ -131,19 +133,19 @@ mod tests {
 
     #[test]
     fn card_to_repr_tests() {
-        let res = card_to_repr("TH");
-        assert_eq!(res, 16787479);
+        let res = card_to_repr(Some("TH"));
+        assert_eq!(res, Some(16787479));
     }
 
     #[test]
-    #[should_panic(expected = "Symbol unfound")]
-    fn card_to_repr_panic_1() {
-        card_to_repr("Z");
+    fn card_to_repr_none_1() {
+        let res = card_to_repr(Some("Z"));
+        assert_eq!(res, None);
     }
 
     #[test]
-    #[should_panic(expected = "Color unfound")]
-    fn card_to_repr_panic_2() {
-        card_to_repr("TT");
+    fn card_to_repr_none_2() {
+        card_to_repr(Some("TT"));
+        assert_eq!(card_to_repr(Some("TT")), None);
     }
 }
