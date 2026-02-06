@@ -1,28 +1,53 @@
-# cactus_evaluator
-Implémentation de l'algorithme Cactus Kev Perfect Hash.
+# polars-cactus
+
+Implementation of the Cactus Kev Perfect Hash algorithm.
 
 # Installation
-## Par la source
-Nécessite [Rust](https://www.rust-lang.org/fr)
-<pre>pip install maturin
-maturin develop</pre>
 
-## Par wheels
-- Télécharger dans l'onglet [Releases](https://github.com/Tijoxa/cactus_evaluator/releases) le fichier *.whl* correspondant au système
-- Installer avec pip
-<pre>pip install cactus_evaluator-[version].whl</pre>
+## From source
 
-# Utilisation
-- Utilisation dans Python :
+Requires [Rust](https://www.rust-lang.org/fr)
+
+<pre>git clone https://github.com/Tijoxa/polars-cactus.git
+cd polars-cactus
+uv sync</pre>
+
+## From PyPI (not yet)
+
+<pre>uv add polars-cactus</pre>
+
+# Usage
+
+- Usage in Python:
+
 ```Python
-import cactus_evaluator
-cactus_evaluator.evaluate('AC', '4C', '5C', 'TC', 'AH')
+import polars_cactus as plc
+
+plc.evaluate("AC", "4C", "5C", "TC", "AH")
 >>> 3484
-cactus_evaluator.evaluate_7('AC', '4C', '5C', 'TC', 'AH', '9H', '7S')
+plc.evaluate_7("AC", "4C", "5C", "TC", "AH", "9H", "7S")
 >>> 3463
 ```
 
+```Python
+import polars as pl
+import polars_cactus as plc
+
+df = pl.DataFrame(
+    {
+        "cards": pl.Series(
+            [
+                ["9H", "8H", "7H", "6H", "TH"],
+                ["AC", "4C", "5C", "TC", "AH"],
+            ]
+        )
+    }
+)
+df.select(plc.col("cards").cactus.evaluate_5cards_str())
+>>> pl.Series([5, 3484], dtype=pl.UInt32)
+```
+
 # Source
+
 - [Cactus Kev Algorithm](https://suffe.cool/poker/evaluator.html)
 - [Hash Tables](http://suffe.cool/poker/7462.html)
-- [PyO3](https://github.com/PyO3/pyo3)

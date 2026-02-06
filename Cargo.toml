@@ -1,16 +1,13 @@
 [package]
-name = "cactus_evaluator"
-version = "0.1.2"
-edition = "2021"
-authors = ["Tijoxa"]
+name = "polars_example"
+version = "0.1.0"
+edition = "2024"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
-name = "cactus_evaluator"
-crate-type = ["cdylib", "lib"]
+name = "_core"
+crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = { version = "0.18.0", features = ["extension-module"] }
-
-[profile.dev]
-overflow-checks = false
+polars = { version = "*", features = ["dtype-struct"] }
+pyo3 = { version = "*", features = ["extension-module", "abi3-py39"] }
+pyo3-polars = { version = "*", features = ["derive", "dtype-struct"] }
