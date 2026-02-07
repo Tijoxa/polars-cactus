@@ -1,3 +1,5 @@
+#![allow(clippy::needless_late_init)]
+
 use super::arrays;
 use std::str::Chars;
 
