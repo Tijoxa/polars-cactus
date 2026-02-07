@@ -11,3 +11,6 @@ crate-type = ["cdylib"]
 polars = { version = "*", features = ["dtype-struct"] }
 pyo3 = { version = "*", features = ["extension-module", "abi3-py39"] }
 pyo3-polars = { version = "*", features = ["derive", "dtype-struct"] }
+
+[profile.dev]
+overflow-checks = false
