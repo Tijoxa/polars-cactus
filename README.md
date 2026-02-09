@@ -4,6 +4,10 @@ Implementation of the Cactus Kev Perfect Hash algorithm.
 
 # Installation
 
+## From PyPI
+
+<pre>uv add polars-cactus</pre>
+
 ## From source
 
 Requires [Rust](https://www.rust-lang.org/fr)
@@ -11,10 +15,6 @@ Requires [Rust](https://www.rust-lang.org/fr)
 <pre>git clone https://github.com/Tijoxa/polars-cactus.git
 cd polars-cactus
 uv sync</pre>
-
-## From PyPI (not yet)
-
-<pre>uv add polars-cactus</pre>
 
 # Usage
 
