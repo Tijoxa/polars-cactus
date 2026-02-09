@@ -4,7 +4,7 @@ dynamic = ["version"]
 description = "A Polars plugin to compute Poker hands"
 readme = "README.md"
 authors = [
-    { name = "Tijoxa", email = "tijoxa@gmail.com" }
+    { name = "Tijoxa", email = "92037181+Tijoxa@users.noreply.github.com" }
 ]
 requires-python = ">=3.13"
 dependencies = [
